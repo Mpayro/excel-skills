@@ -1,16 +1,21 @@
 {
   "name": "excel-skills",
-  "description": "Edit, verify and refresh Excel workbooks without breaking them.",
-  "version": "1.0.0",
+  "description": "Let an AI agent edit, verify and refresh Excel workbooks without breaking them.",
+  "version": "1.1.0",
   "author": {
     "name": "mpayro"
   },
-  "homepage": "https://github.com/Mpayro/power-query-export",
-  "repository": "https://github.com/Mpayro/power-query-export",
+  "homepage": "https://github.com/Mpayro/excel-skills",
+  "repository": "https://github.com/Mpayro/excel-skills",
   "keywords": [
     "excel",
     "xlsx",
     "power-query",
-    "spreadsheet"
+    "spreadsheet",
+    "openpyxl",
+    "ooxml",
+    "onedrive",
+    "sharepoint",
+    "libreoffice"
   ]
 }

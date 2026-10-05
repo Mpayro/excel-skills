@@ -1,6 +1,6 @@
 {
   "name": "excel-skills",
-  "description": "Skills for Excel workbooks: Power Query, safe edits and verification.",
+  "description": "Excel skills for Claude Code and Codex: safe edits, verification and Power Query.",
   "owner": {
     "name": "mpayro"
   },
@@ -8,7 +8,7 @@
     {
       "name": "excel-skills",
       "source": "./plugins/excel-skills",
-      "description": "Edit, verify and refresh Excel workbooks without breaking them."
+      "description": "Let an AI agent edit, verify and refresh Excel workbooks without breaking them."
     }
   ]
 }

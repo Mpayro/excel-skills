@@ -1,9 +1,9 @@
 ---
-name: power-query-export
+name: excel-power-query
 description: Use for anything that involves Power Query (Mashup) in Excel .xlsx or .xlsm workbooks. Read or export the M code, find where a table or column comes from, trace which workbook feeds which, explain why a new row or value does not show up downstream, refresh the queries from the command line (Excel for Mac) and prove the refresh worked, or change the data a query reads. Use it whenever the user mentions Power Query, PQ, refreshing or updating queries ("refrescar", "actualizar consultas"), DataMashup, a query-loaded table, or a chain of linked workbooks, even if they do not ask for an export.
 ---
 
-# Power Query Export
+# Excel Power Query
 
 ## Pick The Job
 

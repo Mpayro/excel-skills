@@ -113,7 +113,7 @@ If the live file changed, a person saved in the meantime. Do not force it. Start
 ### 6. After
 
 - Verify by reading the content back. A file date proves nothing in a synced folder.
-- If other workbooks read this one through Power Query, they hold old data until they refresh. Use the `power-query-export` skill to find them and to refresh in the right order.
+- If other workbooks read this one through Power Query, they hold old data until they refresh. Use the `excel-power-query` skill to find them and to refresh in the right order.
 - Tell the user what changed, what was verified and how, and what was not verified.
 
 ## Rules That Came From Incidents
