@@ -1,0 +1,16 @@
+{
+  "name": "excel-skills",
+  "description": "Edit, verify and refresh Excel workbooks without breaking them.",
+  "version": "1.0.0",
+  "author": {
+    "name": "mpayro"
+  },
+  "homepage": "https://github.com/Mpayro/power-query-export",
+  "repository": "https://github.com/Mpayro/power-query-export",
+  "keywords": [
+    "excel",
+    "xlsx",
+    "power-query",
+    "spreadsheet"
+  ]
+}

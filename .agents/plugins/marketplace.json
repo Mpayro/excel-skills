@@ -1,0 +1,20 @@
+{
+  "name": "excel-skills",
+  "interface": {
+    "displayName": "Excel Skills"
+  },
+  "plugins": [
+    {
+      "name": "excel-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/excel-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

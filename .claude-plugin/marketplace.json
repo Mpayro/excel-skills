@@ -1,0 +1,14 @@
+{
+  "name": "excel-skills",
+  "description": "Skills for Excel workbooks: Power Query, safe edits and verification.",
+  "owner": {
+    "name": "mpayro"
+  },
+  "plugins": [
+    {
+      "name": "excel-skills",
+      "source": "./plugins/excel-skills",
+      "description": "Edit, verify and refresh Excel workbooks without breaking them."
+    }
+  ]
+}

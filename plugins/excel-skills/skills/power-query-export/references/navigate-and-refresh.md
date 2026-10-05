@@ -104,7 +104,9 @@ If you change data in the middle workbook after its refresh, save it again befor
 
 ## 6. Changing the data a query reads
 
-Do not save a workbook that has Power Query, tables or comments with openpyxl or a similar library. These libraries write a new package and drop the parts that they do not model. In a test, a plain load and save with openpyxl removed 26 of the 89 parts of a workbook: the query definitions, the connections, the query tables and the comments. The file still opened, with no queries left. Reading in read-only mode is safe.
+If the `excel-write-verify` skill is installed (it ships in the same plugin), use its tools for this work: `xlsxpatch.py` and `colinsert.py` to edit, `xlsx_check.py` and `xlsx_diff.py` to verify, `xlsx_replace.py` to put the file back. The rules below are the short version.
+
+Do not save a workbook that has Power Query, tables or comments with openpyxl or a similar library. These libraries write a new package and drop the parts that they do not model. In a test, a plain load and save with openpyxl gave a copy with 26 fewer parts than the 89 of the workbook: the query definitions, the connections, the query tables and the threaded comments were gone. The file still opened, with no queries left. Reading in read-only mode is safe.
 
 To add or change rows while the workbook is closed, edit the XML inside the package and leave every other part as it is:
 

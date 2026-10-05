@@ -1,0 +1,34 @@
+{
+  "name": "excel-skills",
+  "version": "1.0.0",
+  "description": "Edit, verify and refresh Excel workbooks without breaking them.",
+  "author": {
+    "name": "mpayro",
+    "url": "https://github.com/Mpayro"
+  },
+  "homepage": "https://github.com/Mpayro/power-query-export",
+  "repository": "https://github.com/Mpayro/power-query-export",
+  "keywords": [
+    "excel",
+    "xlsx",
+    "power-query",
+    "spreadsheet"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Excel Skills",
+    "shortDescription": "Edit, verify and refresh Excel workbooks safely",
+    "longDescription": "Two skills for Excel workbooks that people depend on. power-query-export maps every Power Query, finds which workbook feeds which, exports the M code and refreshes from the command line with proof. excel-write-verify changes values, formulas and columns inside the file while tables, queries and notes stay intact, then proves the result with a cell-by-cell diff, a structural check and an independent recalculation, and replaces a shared file safely.",
+    "developerName": "mpayro",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/Mpayro/power-query-export",
+    "defaultPrompt": [
+      "Map the Power Query of this workbook and tell me the refresh order",
+      "Change this formula in my workbook and prove that nothing else changed"
+    ]
+  }
+}
