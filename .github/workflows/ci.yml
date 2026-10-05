@@ -1,0 +1,51 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 3 * *"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ubuntu-22.04, Python 3.8
+            os: ubuntu-22.04
+            python: "3.8"
+            libreoffice: false
+          - name: ubuntu-latest, Python 3.13, LibreOffice
+            os: ubuntu-latest
+            python: "3.13"
+            libreoffice: true
+          - name: macos-latest, Python 3.12
+            os: macos-latest
+            python: "3.12"
+            libreoffice: false
+          - name: windows-latest, Python 3.12
+            os: windows-latest
+            python: "3.12"
+            libreoffice: false
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install LibreOffice
+        if: matrix.libreoffice
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-calc
+      - name: Install openpyxl
+        run: pip install openpyxl
+      - name: Smoke test
+        run: python -B tests/smoke_test.py

@@ -233,7 +233,7 @@ def check(path, base=None):
             msg = None
             if ty is not None and ty not in ("b", "d", "e", "inlineStr", "n", "s", "str"):
                 msg = f"unknown cell type t={ty!r}"
-            elif ty in (None, "n") and val:
+            elif ty in (None, "n") and val and val.group(1).strip():      # an empty <v></v> is "no value"
                 try:
                     float(val.group(1))
                 except ValueError:
@@ -275,7 +275,14 @@ def check(path, base=None):
                     fail(f"sheet {name!r}: merged ranges overlap ({a[0]})")
                     break
 
-        unstored = sum("<f" in chunk and "<v" not in chunk for chunk in data.split("<c ")[1:])
+        def unstored_formula(chunk):
+            # no <v> at all, or an empty one that is not a stored empty text (Excel writes that with t="str")
+            if "<f" not in chunk:
+                return False
+            if "<v" not in chunk:
+                return True
+            return bool(re.search(r"<v\s*/>|<v></v>", chunk)) and 't="str"' not in chunk.split(">", 1)[0]
+        unstored = sum(unstored_formula(chunk) for chunk in data.split("<c ")[1:])
         if unstored:
             note(f"sheet {name!r}: {unstored} formula cells have no stored result. Power Query and other readers "
                  "see them as empty until Excel opens and saves the file")

@@ -142,7 +142,7 @@ def load_targets(z):
         kind, part = wrels.get(sh.get(RID), ('', ''))
         if kind != 'worksheet':
             continue
-        sheet = (sh.get('name') or '') + (f" [{sh.get('state')}]" if sh.get('state') else '')
+        sheet = (sh.get('name') or '') + (f" [{sh.get('state')}]" if sh.get('state') not in (None, 'visible') else '')
         for kind, tgt in rels(z, part).values():
             if kind == 'table':
                 t = ET.fromstring(z.read(tgt))

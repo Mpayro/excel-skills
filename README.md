@@ -1,5 +1,9 @@
 # Excel Skills for Claude Code and Codex
 
+[![tests](https://github.com/Mpayro/excel-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/Mpayro/excel-skills/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/Mpayro/excel-skills)](https://github.com/Mpayro/excel-skills/releases)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Let an AI agent edit, verify and refresh real Excel workbooks without breaking them.
 
 `excel-skills` is a plugin with two agent skills for `.xlsx` and `.xlsm` files that people depend on: workbooks with Power Query, tables, notes, formatting and other people editing them in OneDrive or SharePoint.
@@ -84,7 +88,7 @@ Excel says "We found a problem with some content" in this file. Find what is dam
 No, for almost everything: navigation, export, edits, diff and structural check read and write the file directly. Excel for Mac is needed only to refresh Power Query. LibreOffice is needed only for the independent recalculation.
 
 **Does it work on Windows and Linux?**
-The Python scripts use portable code and the standard library plus `openpyxl`. They were developed and tested on macOS. The refresh script is macOS only.
+Yes, for everything except the refresh. The test suite runs on Linux, macOS and Windows, with Python 3.8 to 3.13, on every change and once a month. The refresh script is macOS only.
 
 **Why not just use openpyxl?**
 openpyxl is fine to read a workbook and to create a new one. Saving an existing workbook with it rewrites the whole package and drops what it does not model. These skills change only the XML that the edit needs.
@@ -140,6 +144,10 @@ Read this before you let an agent run these.
 - LibreOffice lacks some Excel functions. `lo_recalc.py` reports those cells as not checkable.
 - `xlsx_check.py` finds the structural defects it knows. A clean result is strong evidence, not a guarantee that Excel opens the file without a message. Open a scratch copy in Excel before an important release.
 - In a chat product that runs skills in a remote sandbox, the skills can read and edit a workbook that you upload, but they cannot refresh queries or reach files on your computer.
+
+## Project
+
+[Changelog](CHANGELOG.md) · [Maintenance log](MAINTENANCE.md) · [Contributing](CONTRIBUTING.md) · [Privacy](PRIVACY.md) · [MIT license](LICENSE)
 
 ## En español
 

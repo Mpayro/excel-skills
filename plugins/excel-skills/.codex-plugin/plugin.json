@@ -1,6 +1,6 @@
 {
   "name": "excel-skills",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Let an AI agent edit, verify and refresh Excel workbooks without breaking them.",
   "author": {
     "name": "mpayro",
@@ -8,6 +8,7 @@
   },
   "homepage": "https://github.com/Mpayro/excel-skills",
   "repository": "https://github.com/Mpayro/excel-skills",
+  "license": "MIT",
   "keywords": [
     "excel",
     "xlsx",
