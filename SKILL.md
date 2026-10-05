@@ -1,9 +1,44 @@
 ---
 name: power-query-export
-description: Use when exporting Power Query or Power BI Mashup queries from Excel .xlsx or .xlsm files, or when analyzing how workbook queries feed sheets, Excel tables, formulas, and displayed workbook behavior.
+description: Use for anything that involves Power Query (Mashup) in Excel .xlsx or .xlsm workbooks. Read or export the M code, find where a table or column comes from, trace which workbook feeds which, explain why a new row or value does not show up downstream, refresh the queries from the command line (Excel for Mac) and prove the refresh worked, or change the data a query reads. Use it whenever the user mentions Power Query, PQ, refreshing or updating queries ("refrescar", "actualizar consultas"), DataMashup, a query-loaded table, or a chain of linked workbooks, even if they do not ask for an export.
 ---
 
 # Power Query Export
+
+## Pick The Job
+
+| The user wants | Do this |
+|---|---|
+| To know what a query does, where a table or column comes from, which file feeds which, or why a row is missing | Navigate with `scripts/pq_map.py` (next section). No Excel, no refresh, no export folder. |
+| The M code as files plus a written analysis of the workbook | Full export: the workflow in the rest of this file. `pq_map.py --export` writes the `.pq` files. |
+| To refresh queries, or to bring a workbook up to date after its source changed | Read `references/navigate-and-refresh.md` first, then use `scripts/refresh_excel_mac.sh`. A refresh runs Excel and overwrites data, so the reference lists what to check before and after. |
+| To add or change rows in a workbook that queries read | Same reference, section "Changing the data a query reads". |
+
+Navigation and export only read the saved file. They are safe on a workbook that someone else has open.
+
+## Navigate
+
+```bash
+python3 scripts/pq_map.py /path/Book.xlsx                    # every query: where it loads, what it reads, what uses it
+python3 scripts/pq_map.py /path/A.xlsx /path/B.xlsx /path/C.xlsx   # also: which workbook reads which, and the refresh order
+python3 scripts/pq_map.py /path/Book.xlsx --query "Query Name"     # the M code of one query
+python3 scripts/pq_map.py /path/Book.xlsx --json                   # the same map for scripts
+```
+
+The script paths are relative to the folder of this skill. The scripts need Python 3.8 or later and only the standard library. On Windows, use `python` or `py` in place of `python3`.
+
+For each query the map gives:
+
+- `loads to`: sheet, table and range. "nothing on a sheet" is a connection-only helper query.
+- `excel-side columns`: columns of that table that the query does not own. Most are column formulas. The map names apart the ones with no formula, which a person types.
+- `TABLE FILTER saved on`: the table was saved with a filter. A row can be loaded and still be hidden from the person who looks at the sheet.
+- `source` and `picks`: the file, folder, URL or database it reads, and the sheet, table or named range inside it.
+- `uses` and `used by`: the links to other queries in the same workbook.
+- `last fill`: when the query last refreshed (UTC), how many rows it returned, its status, and how many cells came back as errors. This is the reliable evidence of a refresh. A file date is not.
+
+Start from the map, then read the M code of only the queries on the path that matters. To answer "why is my row not there", follow the path upstream one query at a time and look for row filters, column selections, joins and header skips. The reference has the full checklist.
+
+If the workbook is in a synced folder (OneDrive, SharePoint, Google Drive), copy it to a local folder first and map the copy. Online-only files can time out in the middle of a read.
 
 ## Purpose
 
@@ -13,9 +48,7 @@ This is a universal workflow. Do not assume macOS or Windows. Detect the user's 
 
 ## Required User Input
 
-The user must provide the full path to the Excel workbook.
-
-If the path is missing, ask:
+Use the workbook path that the conversation already gives. If no path can be established, ask:
 
 ```text
 Please provide the full path to the Excel file you want me to export Power Query queries from.
@@ -105,7 +138,9 @@ Recommended layout:
 
 ## Fast Export Method
 
-Do not automate Excel's Power Query UI. Do not refresh the workbook. Treat `.xlsx` and `.xlsm` files as OOXML ZIP packages.
+Do not automate Excel's Power Query UI. An export never needs a refresh: it reads the definitions stored in the file. Refresh only when the user asks for one, and then follow `references/navigate-and-refresh.md`. Treat `.xlsx` and `.xlsm` files as OOXML ZIP packages.
+
+`python3 scripts/pq_map.py Book.xlsx --export "<output folder>/queries"` performs steps 1 to 13 and writes the `.pq` files. The steps stay here so that the method is clear and can be repeated by hand where Python is not available.
 
 Core steps:
 
@@ -113,7 +148,7 @@ Core steps:
 2. Open the workbook with ZIP parsing.
 3. Search `customXml/item*.xml`.
 4. Find XML containing a `DataMashup` payload.
-5. Decode XML as `utf-16`; fallback to `utf-8`.
+5. Decode XML as `utf-16`; fallback to `utf-8`. A search for the text `DataMashup` in the raw bytes finds nothing, because the part is UTF-16. Do not conclude from that search that the workbook has no queries.
 6. Extract the base64 text inside the `DataMashup` element.
 7. Base64-decode it into binary.
 8. Scan the binary for local ZIP headers: `PK\x03\x04`.
@@ -268,6 +303,8 @@ Call out:
 - hidden sheets
 - connection-only queries
 - formulas referencing external workbooks
+- constants typed into a calculated column of a query table (the next refresh puts the formula back)
+- a last fill that is older than the source file, or a fill with cell errors
 ```
 
 ## Dependency Analysis Rules
